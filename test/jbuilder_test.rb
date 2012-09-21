@@ -404,4 +404,16 @@ class JbuilderTest < ActiveSupport::TestCase
     result = json.attributes!
     assert_equal array, result
   end
+
+  test "array! with a nested array!" do
+    array = [1,2,3,4]
+    json = Jbuilder.new
+    json.array!([1,2]) do |json, value|
+      json.array! array
+    end
+
+    result = json.attributes!
+    assert_equal array, result[0]
+    assert_equal array, result[1]
+  end
 end
