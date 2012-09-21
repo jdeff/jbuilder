@@ -395,4 +395,13 @@ class JbuilderTest < ActiveSupport::TestCase
 
     assert_equal [], Jbuilder.send(:class_variable_get, "@@key_formatter").instance_variable_get("@cache").keys
   end
+
+  test "array! with plain array" do
+    array = [1,2,3,4]
+    json = Jbuilder.new
+    json.array! array
+
+    result = json.attributes!
+    assert_equal array, result
+  end
 end
