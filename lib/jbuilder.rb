@@ -156,8 +156,21 @@ class Jbuilder < ActiveSupport::BasicObject
   #   end
   #
   #   { "people": [ { "name": David", "age": 32 }, { "name": Jamie", "age": 31 } ] }
+  #
+  # Also, by not passing a block, you can set the array directly:
+  #
+  #   json.names do |json|
+  #     json.array! ["David", "Jamie"]
+  #   end
+  #
+  #   { "names" : ["David", "Jamie"] }
+  #
   def array!(collection)
-    @attributes = _map_collection(collection) { |element| yield self, element }
+    if block_given?
+      @attributes = _map_collection(collection) { |element| yield self, element }
+    else
+      @attributes = collection
+    end
   end
 
   # Extracts the mentioned attributes or hash elements from the passed object and turns them into attributes of the JSON.
